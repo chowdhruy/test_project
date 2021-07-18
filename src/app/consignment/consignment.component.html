@@ -1,0 +1,47 @@
+<div class="page-title">
+    <div class="title-env">
+        <h1 style="font-size:20px;" class="title">Consignment</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="panel-body">
+        <form class="form-horizontal" method="post" action="">
+            <div class="form-group">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <span class="fa fa-search"></span>
+                        </div>
+                        <input type="text" name="name" id="foo_filter" class="form-control" placeholder="Search..."
+                        [(ngModel)]="query"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="panel-body">
+        <ul class="nav nav-tabs nav-tabs-justified merchant-tabs">
+            <li [ngClass]="{'active': activeTab == 'draft'}" (click)="changeConsignmentTab('draft')">
+                <a data-toggle="tab">
+                    <span class="visible-xs"><i class="fa-institution"></i></span>
+                    <span class="hidden-xs">Unconsolidated</span>
+                </a>
+            </li>
+            <li [ngClass]="{'active': activeTab == 'confirm'}" (click)="changeConsignmentTab('confirm')">
+                    <a data-toggle="tab">
+                    <span class="visible-xs"><i class="fa-home"></i></span>
+                    <span class="hidden-xs">Consolidated</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <app-draft-consignment *ngIf="activeTab =='draft'" (checkedConsignments)="checkedConsignments($event)"
+                                    [query]="query"></app-draft-consignment>
+             <app-confirm *ngIf="activeTab =='confirm'"(checkedConsignments)="checkConsignments($event)"></app-confirm>                 
+               <!-- <router-outlet></router-outlet> -->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,805 @@
+<ng-progress [color]="'yellow'" [thick]="true"></ng-progress>
+
+<div class="update-message" *ngIf="displayRefreshPage">
+    App has new updates. Please <b><a href="javascript:void(0);" (click)="refreshPage()">click here to refresh</a></b>
+    <button type="button" class="close" (click)="refreshClose()">
+        <i class="fa fa-times"></i>
+    </button>
+</div>
+
+<div class="page-container">
+    <!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always -->
+
+    <!-- Add "fixed" class to make the sidebar fixed always to the browser viewport. -->
+    <!-- Adding class "toggle-others" will keep only one menu item open at a time. -->
+    <!-- Adding class "collapsed" collapse sidebar root elements and show only icons. -->
+    <div class="sidebar-menu toggle-others fixed" *ngIf="loggedIn()">
+        <div class="sidebar-menu-inner">
+            <header class="logo-env">
+                <!-- logo -->
+                <div class="logo">
+                    <a routerLink="/dashboard" class="logo-expanded">
+                        <img src="../assets/images/logo-tiktok.png" width="80" alt=""/>
+                    </a>
+
+                    <a routerLink="/dashboard" class="logo-collapsed">
+                        <img src="../assets/images/logo-tiktok.png" width="60" alt=""/>
+                    </a>
+                </div>
+
+                <!-- This will toggle the mobile menu and will be visible only on mobile devices -->
+                <div class="mobile-menu-toggle visible-xs">
+                    <a href="#" data-toggle="user-info-menu">
+                        <i class="fa-bell-o"></i>
+                        <span class="badge badge-success">7</span>
+                    </a>
+
+                    <a href="#" data-toggle="mobile-menu">
+                        <i class="fa-bars"></i>
+                    </a>
+                </div>
+            </header>
+
+            <ul id="main-menu" class="main-menu">
+                <!-- add class "multiple-expanded" to allow multiple submenus to open -->
+                <!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
+                <li>
+                    <a routerLink="/dashboard">
+                        <i class="linecons-desktop"></i>
+                        <span class="title">Dashboard</span>
+                    </a>
+                </li>
+                <li *ngIf="isApproved()">
+                    <a routerLink="/delivery">
+                        <i class="fa fa-send"></i>
+                        <span class="title">Deliveries</span>
+                    </a>
+                </li>
+                <li *ngIf="isApproved()">
+                    <a routerLink="/pickup">
+                        <i class="fa fa-automobile"></i>
+                        <span class="title">Pickup</span>
+                    </a>
+                </li>
+                <li *ngIf="isApproved()">
+                    <a routerLink="/consignment">
+                        <!--<img src="assets/icons/consignment.png" width="18" /> -->
+                        <i class="fa-group"></i>
+                        <span class="title">Consignment</span>
+                    </a>
+                </li>
+
+                <li *ngIf="isApproved()">
+                    <a routerLink="/tracking">
+                        <i class="fa-paw"></i>
+                        <span class="title">Tracking</span>
+                    </a>
+                </li>
+                <li *ngIf="isApproved()">
+                    <a routerLink="/billing">
+                        <i class="fa fa-calculator"></i>
+                        <span class="title">Billing</span>
+                    </a>
+                </li>
+
+                <!-- Will be enabled later -->
+                <!--<li>
+                    <a href="mailbox-main.html">
+                        <i class="linecons-mail"></i>
+                        <span class="title">Setting </span>
+                        <span class="label label-success">5</span>
+                    </a>
+                    <ul>
+                        <li>
+                            <a routerLink="./merchant-profile">
+                                <span class="title">Profile</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>-->
+            </ul>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <nav class="navbar user-info-navbar" role="navigation" *ngIf="loggedIn()">
+            <!-- User Info, Notifications and Menu Bar -->
+
+            <!-- Left links for user info navbar -->
+            <ul class="user-info-menu left-links list-inline list-unstyled">
+
+                <li class="hidden-sm hidden-xs">
+                    <a href="#" data-toggle="sidebar">
+                        <i class="fa-bars"></i>
+                    </a>
+                </li>
+
+                <!--<li class="dropdown hover-line" ngbDropdown>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dropdown-message" ngbDropdownToggle>
+                        <i class="fa-envelope-o"></i>
+                        <span class="badge badge-green">15</span>
+                    </a>
+
+                    <ul class="dropdown-menu messages" ngbDropdownMenu aria-labelledby="dropdown-message">
+                        <li>
+
+                            <ul class="dropdown-menu-list list-unstyled ps-scrollbar">
+
+                                <li class="active">&lt;!&ndash; "active" class means message is unread &ndash;&gt;
+                                    <a href="#">
+											<span class="line">
+												<strong>Luc Chartier</strong>
+												<span class="light small">- yesterday</span>
+											</span>
+
+                                        <span class="line desc small">
+												This ain’t our first item, it is the best of the rest.
+											</span>
+                                    </a>
+                                </li>
+
+                                <li class="active">
+                                    <a href="#">
+											<span class="line">
+												<strong>Salma Nyberg</strong>
+												<span class="light small">- 2 days ago</span>
+											</span>
+
+                                        <span class="line desc small">
+												Oh he decisively impression attachment friendship so if everything.
+											</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#">
+											<span class="line">
+												Hayden Cartwright
+												<span class="light small">- a week ago</span>
+											</span>
+
+                                        <span class="line desc small">
+												Whose her enjoy chief new young. Felicity if ye required likewise so doubtful.
+											</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#">
+											<span class="line">
+												Sandra Eberhardt
+												<span class="light small">- 16 days ago</span>
+											</span>
+
+                                        <span class="line desc small">
+												On so attention necessary at by provision otherwise existence direction.
+											</span>
+                                    </a>
+                                </li>
+
+                                &lt;!&ndash; Repeated &ndash;&gt;
+
+                                <li class="active">&lt;!&ndash; "active" class means message is unread &ndash;&gt;
+                                    <a href="#">
+											<span class="line">
+												<strong>Luc Chartier</strong>
+												<span class="light small">- yesterday</span>
+											</span>
+
+                                        <span class="line desc small">
+												This ain’t our first item, it is the best of the rest.
+											</span>
+                                    </a>
+                                </li>
+
+                                <li class="active">
+                                    <a href="#">
+											<span class="line">
+												<strong>Salma Nyberg</strong>
+												<span class="light small">- 2 days ago</span>
+											</span>
+
+                                        <span class="line desc small">
+												Oh he decisively impression attachment friendship so if everything.
+											</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#">
+											<span class="line">
+												Hayden Cartwright
+												<span class="light small">- a week ago</span>
+											</span>
+
+                                        <span class="line desc small">
+												Whose her enjoy chief new young. Felicity if ye required likewise so doubtful.
+											</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#">
+											<span class="line">
+												Sandra Eberhardt
+												<span class="light small">- 16 days ago</span>
+											</span>
+
+                                        <span class="line desc small">
+												On so attention necessary at by provision otherwise existence direction.
+											</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+
+                        </li>
+
+                        <li class="external">
+                            <a href="mailbox-main.html">
+                                <span>All Messages</span>
+                                <i class="fa-link-ext"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </li>-->
+
+               <li ngbDropdown class="dropdown hover-line">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dropdown-notification"
+                       ngbDropdownToggle>
+                        <i class="fa-bell-o"></i>
+                        <span class="badge badge-purple">7</span>
+                    </a>
+
+                    <ul class="dropdown-menu notifications" ngbDropdownMenu aria-labelledby="dropdown-notification">
+                        <li class="top">
+                            <p class="small">
+                                <a href="#" class="pull-right">Mark all Read</a>
+                                You have <strong>3</strong> new notifications.
+                            </p>
+                        </li>
+
+                        <li>
+                            <ul class="dropdown-menu-list list-unstyled ps-scrollbar">
+                                <li class="active notification-success">
+                                    <a href="#">
+                                        <i class="fa-user"></i>
+
+                                        <span class="line">
+												<strong>New user registered</strong>
+											</span>
+
+                                        <span class="line small time">
+												30 seconds ago
+											</span>
+                                    </a>
+                                </li>
+
+                                <li class="active notification-secondary">
+                                    <a href="#">
+                                        <i class="fa-lock"></i>
+
+                                        <span class="line">
+												<strong>Privacy settings have been changed</strong>
+											</span>
+
+                                        <span class="line small time">
+												3 hours ago
+											</span>
+                                    </a>
+                                </li>
+
+                                <li class="notification-primary">
+                                    <a href="#">
+                                        <i class="fa-thumbs-up"></i>
+
+                                        <span class="line">
+												<strong>Someone special liked this</strong>
+											</span>
+
+                                        <span class="line small time">
+												2 minutes ago
+											</span>
+                                    </a>
+                                </li>
+
+                                <li class="notification-danger">
+                                    <a href="#">
+                                        <i class="fa-calendar"></i>
+
+                                        <span class="line">
+												John cancelled the event
+											</span>
+
+                                        <span class="line small time">
+												9 hours ago
+											</span>
+                                    </a>
+                                </li>
+
+                                <li class="notification-info">
+                                    <a href="#">
+                                        <i class="fa-database"></i>
+
+                                        <span class="line">
+												The server is status is stable
+											</span>
+
+                                        <span class="line small time">
+												yesterday at 10:30am
+											</span>
+                                    </a>
+                                </li>
+
+                                <li class="notification-warning">
+                                    <a href="#">
+                                        <i class="fa-envelope-o"></i>
+
+                                        <span class="line">
+												New comments waiting approval
+											</span>
+
+                                        <span class="line small time">
+												last week
+											</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="external">
+                            <a routerLink="./notification">
+                                <span>View all notifications</span>
+                                <i class="fa-link-ext"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Added in v1.2 -->
+
+                <!--<li ngbDropdown class="dropdown hover-line language-switcher">-->
+                    <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dropdown-language" ngbDropdownToggle>-->
+                        <!--<img src="assets/images/flags/flag-uk.png" alt="flag-uk"/>-->
+                        <!--English-->
+                    <!--</a>-->
+
+                    <!--<ul class="dropdown-menu languages" ngbDropdownMenu aria-labelledby="dropdown-language">-->
+                        <!--<li class="active">-->
+                            <!--<a href="#">-->
+                                <!--<img src="assets/images/flags/flag-uk.png" alt="flag-uk"/>-->
+                                <!--English-->
+                            <!--</a>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</li>-->
+            </ul>
+
+            <!-- Right links for user info navbar -->
+            <ul class="user-info-menu right-links list-inline list-unstyled">
+                <li class="dropdown user-profile" ngbDropdown>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dropdown-profile" ngbDropdownToggle>
+                        <img src="assets/images/user-4.png" alt="user-image" class="img-circle img-inline userpic-32"
+                             width="28"/>
+                        <span>
+                            {{user.name}}
+                            <i class="fa-angle-down"></i>
+                        </span>
+                    </a>
+
+                    <ul class="dropdown-menu user-profile-menu list-unstyled" ngbDropdownMenu
+                        aria-labelledby="dropdown-profile">
+                        <!--<li>
+                            <a href="#edit-profile">
+                                <i class="fa-edit"></i>
+                                New Post
+                            </a>
+                        </li>-->
+                        <li>
+                            <a routerLink="./change-password">
+                                <i class="fa-wrench"></i>
+                                Change Password
+                            </a>
+                        </li>
+                        <li>
+                            <a routerLink="./profile">
+                                <i class="fa-user"></i>
+                                Profile
+                            </a>
+                        </li>
+                        <!--<li>
+                            <a href="#help">
+                                <i class="fa-info"></i>
+                                Help
+                            </a>
+                        </li>-->
+                        <li class="last">
+                            <a routerLink="./logout">
+                                <i class="fa-lock"></i>
+                                Logout
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+        <router-outlet></router-outlet>
+
+        <!-- Main Footer -->
+        <!-- Choose between footer styles: "footer-type-1" or "footer-type-2" -->
+        <!-- Add class "sticky" to  always stick the footer to the end of page (if page contents is small) -->
+        <!-- Or class "fixed" to  always fix the footer to the end of page -->
+        <footer class="main-footer sticky footer-type-1" *ngIf="loggedIn()">
+            <div class="footer-inner">
+                <!-- Add your copyright text here -->
+                <div class="footer-text">
+                    <strong> </strong>
+                    Developed by <a href="http://tiktok.com.bd" target="_blank">TikTok Software Division</a> -
+                    <strong>© {{ currentYear }}</strong>
+                </div>
+
+                <!-- Go to Top Link, just add rel="go-top" to any link to add this functionality -->
+                <div class="go-up">
+                    <a href="#" rel="go-top">
+                        <i class="fa-angle-up"></i>
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!--<div id="chat" class="fixed">&lt;!&ndash; start: Chat Section &ndash;&gt;
+
+        <div class="chat-inner">
+
+
+            <h2 class="chat-header">
+                <a href="#" class="chat-close" data-toggle="chat">
+                    <i class="fa-plus-circle rotate-45deg"></i>
+                </a>
+
+                Chat
+                <span class="badge badge-success is-hidden">0</span>
+            </h2>
+
+            <script type="text/javascript">
+                // Here is just a sample how to open chat conversation box
+                jQuery(document).ready(function ($) {
+                    var $chat_conversation = $(".chat-conversation");
+
+                    $(".chat-group a").on('click', function (ev) {
+                        ev.preventDefault();
+
+                        $chat_conversation.toggleClass('is-open');
+
+                        $(".chat-conversation textarea").trigger('autosize.resize').focus();
+                    });
+
+                    $(".conversation-close").on('click', function (ev) {
+                        ev.preventDefault();
+                        $chat_conversation.removeClass('is-open');
+                    });
+                });
+            </script>
+
+
+            <div class="chat-group">
+                <strong>Favorites</strong>
+
+                <a href="#"><span class="user-status is-online"></span> <em>Catherine J. Watkins</em></a>
+                <a href="#"><span class="user-status is-online"></span> <em>Nicholas R. Walker</em></a>
+                <a href="#"><span class="user-status is-busy"></span> <em>Susan J. Best</em></a>
+                <a href="#"><span class="user-status is-idle"></span> <em>Fernando G. Olson</em></a>
+                <a href="#"><span class="user-status is-offline"></span> <em>Brandon S. Young</em></a>
+            </div>
+
+
+            <div class="chat-group">
+                <strong>Work</strong>
+
+                <a href="#"><span class="user-status is-busy"></span> <em>Rodrigo E. Lozano</em></a>
+                <a href="#"><span class="user-status is-offline"></span> <em>Robert J. Garcia</em></a>
+                <a href="#"><span class="user-status is-offline"></span> <em>Daniel A. Pena</em></a>
+            </div>
+
+
+            <div class="chat-group">
+                <strong>Other</strong>
+
+                <a href="#"><span class="user-status is-online"></span> <em>Dennis E. Johnson</em></a>
+                <a href="#"><span class="user-status is-online"></span> <em>Stuart A. Shire</em></a>
+                <a href="#"><span class="user-status is-online"></span> <em>Janet I. Matas</em></a>
+                <a href="#"><span class="user-status is-online"></span> <em>Mindy A. Smith</em></a>
+                <a href="#"><span class="user-status is-busy"></span> <em>Herman S. Foltz</em></a>
+                <a href="#"><span class="user-status is-busy"></span> <em>Gregory E. Robie</em></a>
+                <a href="#"><span class="user-status is-busy"></span> <em>Nellie T. Foreman</em></a>
+                <a href="#"><span class="user-status is-busy"></span> <em>William R. Miller</em></a>
+                <a href="#"><span class="user-status is-idle"></span> <em>Vivian J. Hall</em></a>
+                <a href="#"><span class="user-status is-offline"></span> <em>Melinda A. Anderson</em></a>
+                <a href="#"><span class="user-status is-offline"></span> <em>Gary M. Mooneyham</em></a>
+                <a href="#"><span class="user-status is-offline"></span> <em>Robert C. Medina</em></a>
+                <a href="#"><span class="user-status is-offline"></span> <em>Dylan C. Bernal</em></a>
+                <a href="#"><span class="user-status is-offline"></span> <em>Marc P. Sanborn</em></a>
+                <a href="#"><span class="user-status is-offline"></span> <em>Kenneth M. Rochester</em></a>
+                <a href="#"><span class="user-status is-offline"></span> <em>Rachael D. Carpenter</em></a>
+            </div>
+
+        </div>
+
+        &lt;!&ndash; conversation template &ndash;&gt;
+        <div class="chat-conversation">
+
+            <div class="conversation-header">
+                <a href="#" class="conversation-close">
+                    &times;
+                </a>
+
+                <span class="user-status is-online"></span>
+                <span class="display-name">Arlind Nushi</span>
+                <small>Online</small>
+            </div>
+
+            <ul class="conversation-body">
+                <li>
+                    <span class="user">Arlind Nushi</span>
+                    <span class="time">09:00</span>
+                    <p>Are you here?</p>
+                </li>
+                <li class="odd">
+                    <span class="user">Brandon S. Young</span>
+                    <span class="time">09:25</span>
+                    <p>This message is pre-queued.</p>
+                </li>
+                <li>
+                    <span class="user">Brandon S. Young</span>
+                    <span class="time">09:26</span>
+                    <p>Whohoo!</p>
+                </li>
+                <li class="odd">
+                    <span class="user">Arlind Nushi</span>
+                    <span class="time">09:27</span>
+                    <p>Do you like it?</p>
+                </li>
+            </ul>
+
+            <div class="chat-textarea">
+                <textarea class="form-control autogrow" placeholder="Type your message"></textarea>
+            </div>
+
+        </div>
+
+        &lt;!&ndash; end: Chat Section &ndash;&gt;
+    </div>-->
+</div>
+
+<div class="footer-sticked-chat"><!-- Start: Footer Sticked Chat -->
+
+    <script type="text/javascript">
+        function toggleSampleChatWindow() {
+            var $chat_win = jQuery("#sample-chat-window");
+
+            $chat_win.toggleClass('open');
+
+            if ($chat_win.hasClass('open')) {
+                var $messages = $chat_win.find('.ps-scrollbar');
+
+                if ($.isFunction($.fn.perfectScrollbar)) {
+                    $messages.perfectScrollbar('destroy');
+
+                    setTimeout(function () {
+                        $messages.perfectScrollbar();
+                        $chat_win.find('.form-control').focus();
+                    }, 300);
+                }
+            }
+
+            jQuery("#sample-chat-window form").on('submit', function (ev) {
+                ev.preventDefault();
+            });
+        }
+
+        jQuery(document).ready(function ($) {
+            $(".footer-sticked-chat .chat-user, .other-conversations-list a").on('click', function (ev) {
+                ev.preventDefault();
+                toggleSampleChatWindow();
+            });
+
+            $(".mobile-chat-toggle").on('click', function (ev) {
+                ev.preventDefault();
+
+                $(".footer-sticked-chat").toggleClass('mobile-is-visible');
+            });
+        });
+    </script>
+
+    <!--<ul class="chat-conversations list-unstyled">
+
+        &lt;!&ndash; Extra Chat Conversations collected not to exceed window width &ndash;&gt;
+        <li class="browse-more">
+            <a href="#" class="chat-user">
+                <i class="linecons-comment"></i>
+                <span>3</span>
+            </a>
+
+            &lt;!&ndash; These conversations are hidden in screen &ndash;&gt;
+            <ul class="other-conversations-list">
+                <li>
+                    &lt;!&ndash; Minimal User Info Link &ndash;&gt;
+                    <a href="#">
+                        Catherine J. Watkins
+                        <span>&times;</span>
+                    </a>
+                </li>
+                <li>
+                    &lt;!&ndash; Minimal User Info Link &ndash;&gt;
+                    <a href="#">
+                        Nicholas R. Walker
+                        <span>&times;</span>
+                    </a>
+                </li>
+                <li>
+                    &lt;!&ndash; Minimal User Info Link &ndash;&gt;
+                    <a href="#">
+                        Susan J. Best
+                        <span>&times;</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li id="sample-chat-window">
+            &lt;!&ndash; User Info Link &ndash;&gt;
+            <a href="#" class="chat-user">
+                <span class="user-status is-online"></span>
+                Art Ramadani
+            </a>
+
+            <span class="badge badge-purple">4</span>
+
+            &lt;!&ndash; Conversation Window &ndash;&gt;
+            <div class="conversation-window">
+                &lt;!&ndash; User Info Link in header (used to close the chat bar) &ndash;&gt;
+                <a href="#" class="chat-user">
+                    <span class="close">&times;</span>
+
+                    <span class="user-status is-online"></span>
+                    Art Ramadani
+                </a>
+
+                <ul class="conversation-messages ps-scrollbar ps-scroll-down">
+
+                    &lt;!&ndash; Will indicate time &ndash;&gt;
+                    <li class="time">Thursday 04, December '14</li>
+
+                    <li>
+                        <div class="user-info">
+                            <a href="#">
+                                <img src="assets/images/user-1.png" width="30" height="30" alt="user-image"/>
+                            </a>
+                        </div>
+                        <div class="message-entry">
+                            <p>Hello John, how are you?</p>
+                        </div>
+                    </li>
+
+                    <li class="me">&lt;!&ndash; adding class="me" will indicate that "you" are sending a message &ndash;&gt;
+                        <div class="message-entry">
+                            <p>Hi Art, I am fine :) How about you?</p>
+                        </div>
+                        <div class="user-info">
+                            <a href="#">
+                                <img src="assets/images/user-4.png" width="30" height="30" alt="user-image"/>
+                            </a>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="user-info">
+                            <a href="#">
+                                <img src="assets/images/user-1.png" width="30" height="30" alt="user-image"/>
+                            </a>
+                        </div>
+                        <div class="message-entry">
+                            <p>Warmth his law design say are person. Pronounce suspected in belonging conveying ye
+                                repulsive.</p>
+                        </div>
+                    </li>
+
+                    <li class="me">&lt;!&ndash; adding class="me" will indicate that "you" are sending a message &ndash;&gt;
+                        <div class="message-entry">
+                            <p>Comfort reached gay perhaps chamber his six detract besides add. Moonlight newspaper.</p>
+                            <p>Timed voice share led his widen noisy young.</p>
+                            <p>His six detract besides add moonlight newspaper.</p>
+                        </div>
+                        <div class="user-info">
+                            <a href="#">
+                                <img src="assets/images/user-4.png" width="30" height="30" alt="user-image"/>
+                            </a>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="user-info">
+                            <a href="#">
+                                <img src="assets/images/user-1.png" width="30" height="30" alt="user-image"/>
+                            </a>
+                        </div>
+                        <div class="message-entry">
+                            <p>Hello John, how are you?</p>
+                        </div>
+                    </li>
+
+                    <li class="me">&lt;!&ndash; adding class="me" will indicate that "you" are sending a message &ndash;&gt;
+                        <div class="message-entry">
+                            <p>Hi Art, I am fine :) How about you?</p>
+                        </div>
+                        <div class="user-info">
+                            <a href="#">
+                                <img src="assets/images/user-4.png" width="30" height="30" alt="user-image"/>
+                            </a>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="user-info">
+                            <a href="#">
+                                <img src="assets/images/user-1.png" width="30" height="30" alt="user-image"/>
+                            </a>
+                        </div>
+                        <div class="message-entry">
+                            <p>Hello John, how are you?</p>
+                        </div>
+                    </li>
+
+                    &lt;!&ndash; Will indicate time &ndash;&gt;
+                    <li class="time">Today 17:12</li>
+
+                    <li class="me">&lt;!&ndash; adding class="me" will indicate that "you" are sending a message &ndash;&gt;
+                        <div class="message-entry">
+                            <p>Hi Art, I am fine :) How about you?</p>
+
+                        </div>
+                        <div class="user-info">
+                            <a href="#">
+                                <img src="assets/images/user-4.png" width="30" height="30" alt="user-image"/>
+                            </a>
+                        </div>
+                    </li>
+
+                </ul>
+
+                <form method="post" class="chat-form">
+                    <input type="text" class="form-control" placeholder="Enter your message..."/>
+                </form>
+            </div>
+        </li>
+
+        <li>
+            &lt;!&ndash; User Info Link &ndash;&gt;
+            <a href="#" class="chat-user">
+                <span class="user-status is-idle"></span>
+                Ylli Pylla
+            </a>
+        </li>
+
+        <li>
+            &lt;!&ndash; User Info Link &ndash;&gt;
+            <a href="#" class="chat-user">
+                <span class="user-status is-busy"></span>
+                Arlind Nushi
+            </a>
+        </li>
+    </ul>-->
+
+    <!--<a href="#" class="mobile-chat-toggle">
+        <i class="linecons-comment"></i>
+        <span class="num">6</span>
+        <span class="badge badge-purple">4</span>
+    </a>-->
+
+    <!-- End: Footer Sticked Chat -->
+</div>
+
+<!--<simple-notifications [options]="options"></simple-notifications>-->

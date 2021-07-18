@@ -1,0 +1,179 @@
+<div class="alert alert-danger-light" role="alert" *ngIf="hasError">
+    <button type="button" class="close" (click)="closeErrorAlert()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <strong>Error!</strong> {{ hasError }}
+</div>
+
+<div class="row">
+    <div class="panel-body">
+        <form role="form" id="delivery-form" method="post" class="validate" #deliveryForm="ngForm">
+            <div class="row">
+                <div class="col-md-12 percel-weight">
+                    <div class="form-group">
+                        <label class="control-label-label">Recipient Name</label>
+
+                        <input type="text" class="form-control" id="customer_name" name="customer_name"
+                               [(ngModel)]="product.customer_name" required/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label-label">Recipient Number</label>
+
+                        <input type="text" class="form-control" name="customer_phone" id="customer_phone"
+                               [(ngModel)]="product.customer_phone" placeholder=""/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label-label">Recipient Email</label>
+
+                        <input type="text" class="form-control" id="customer_email" name="customer_email"
+                               [(ngModel)]="product.customer_email" required/>
+                    </div>
+                </div>
+
+                <div class="col-md-12 percel-weight">
+                    <div class="form-group">
+                        <label class="control-label-label">Recipient Address<span style="color:red"> *</span></label>
+
+                        <textarea class="form-control noresize" name="customer_address"
+                                  [(ngModel)]="product.customer_address"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label-label">Recipient Zone<span style="color:red"> *</span></label>
+
+                        <select class="form-control select-search" placeholder="Select You Location"
+                                name="customer_district_id" id="customer_district_id"
+                                [(ngModel)]="product.customer_district_id"
+                                (change)="areaList()"
+                        >
+                            <option [value]="district.id" *ngFor="let district of districts">
+                                {{district.name}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label-label">Recipient Area<span style="color:red"> *</span></label>
+                        <select class="form-control select-search" name="customer_district_area_id"
+                                [(ngModel)]="product.customer_district_area_id"
+                                (change)="onChangeArea()">
+                            <option [value]="area.id" *ngFor="let area of areas">
+                                {{area.name}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label-label">Delivery Method<span style="color:red"> *</span></label>
+                        <select class="form-control select-search" name="service_company_id" id="service_company_id"
+                                [(ngModel)]="product.service_company_id"
+                        >
+                            <option [value]="service.id" *ngFor="let service of services">
+                                {{service.name}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label-label">Plan<span style="color:red"> *</span></label>
+
+                        <select class="form-control select-search" name="plan" id="plan"
+                                [(ngModel)]="product.plan"
+                        >
+                            <option [value]="plan.id" *ngFor="let plan of plans">
+                                {{plan.name}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label-label">Package Description</label>
+
+                        <textarea class="form-control noresize" name="package_details" id="package_details"
+                                  [(ngModel)]="product.package_details"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label-label">Amount To be Collected<span
+                                style="color:red"> *</span></label>
+
+                        <input type="text" class="form-control" name="name" id="customer_collectible" placeholder=""
+                               [(ngModel)]="product.customer_collectible"/>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label-label">Merchant Order ID</label>
+
+                        <input type="text" class="form-control" name="merchant_label" id="merchant_label"
+                               [(ngModel)]="product.order_id">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label-label">Delivery Date</label>
+                        <input type="text" class="form-control" name="delivery_date" id="delivery_date" placeholder=""
+                               daterangepicker (selected)="selectedDate($event, daterange)"
+                               [options]="options" [(ngModel)]="product.delivery_date"/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label-label">Time Slot<span style="color:red"> *</span></label>
+
+                        <select class="form-control select-search" id="delivery_slot" name="delivery_slot"
+                                [(ngModel)]="product.delivery_slot">
+                            <option>Not Plan</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 percel-weight">
+                    <div class="form-group">
+                        <label class="control-label-label">Special Instruction</label>
+
+                        <textarea class="form-control noresize" name="merchant_instruction"
+                                  id="merchant_instruction" [(ngModel)]="product.merchant_instruction"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-left">
+                    <button *ngIf="!consignmentId" class="btn btn-success btn-form" value="" (click)="add();" >Save</button>
+                    <button *ngIf="consignmentId" class="btn btn-success btn-form" value="" (click)="updateConsignment();" >Update</button>
+                    <button class="btn btn-info btn-form">Reset</button>         
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

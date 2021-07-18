@@ -1,0 +1,99 @@
+<div class="tab-pane">
+    <div class="panel-body admin-datatable">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover sys_table footable" data-filter="#foo_filter"
+                   data-page-size="50">
+                <thead>
+                <tr class="replace-inputs">
+                    <th>Invoice Id</th>
+                    <th>Date</th>
+                    <th>Paid Amount</th>
+                    <th>Payment Method</th>
+                    <th class="no-sorting text-center">Manage</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let payment of payments">
+                    <th>{{payment.invoice_number}}</th>
+                    <td>{{payment.payment_date}}</td>
+                    <td>{{payment.amount}}</td>
+                    <td>{{payment.method}}</td>
+                    <td class="text-right">
+                        <a class="btn btn-blue btn-xs btn-shadow" (click)="showPayment(payment.uid)" title="View"><i
+                            class="fa fa-search"></i></a>
+                        <a href="javascript:void(0);" class="btn btn-info btn-xs btn-shadow" (click)="download(payment.uid)"
+                           title="Download"><i class="fa fa-download"></i> </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <ngb-pagination *ngIf="pagination && pagination.total > 0" [collectionSize]="pagination.total"
+                                    [(page)]="pagination.current_page" [(pageSize)]="pagination.per_page"
+                                    (pageChange)="onPageChange($event)" [maxSize]="5" [rotate]="true" [ellipses]="false"
+                                    [boundaryLinks]="true" aria-label="Default pagination"></ngb-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<modal id="payment-modal">
+    <div class="modal fade custom-width" id="modal-2">
+        <div class="modal-dialog" style="width: 70%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Invoice Details</h4>
+                </div>
+                <div class="modal-body" *ngIf="payment !== undefined">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <strong>Payment Details of {{payment.invoice_number}}</strong>
+                            <p>Method: {{ payment.method}}</p>
+                            <p>Instrument Details:{{payment.instrument_details}}.</p>
+                            <p>Payment Date: {{payment.payment_date }}</p>
+                            <p>Amount: {{payment.amount}} </p>
+                        </div>
+                        <div class="col-md-12">
+                            <strong>Paid Consignments</strong>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Con.ID</th>
+                                        <th>Invoice</th>
+                                        <th>Total Collected</th>
+                                        <th>Weight Charge</th>
+                                        <th>Cod Charge</th>
+                                        <th>Delivery Charge</th>
+                                        <th>Total Payable</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr *ngFor="let item of payment.items">
+                                        <td>{{item.uid}}</td>
+                                        <td>{{item.invoice}}</td>
+                                        <td>{{item.collected_amount}}</td>
+                                        <td>{{item.charge_weight}}</td>
+                                        <td>{{item.charge_cod}}</td>
+                                        <td>{{item.charge_delivery}}</td>
+                                        <td>{{item.amount}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-backdrop fade" style="display: none;"></div>
+</modal>

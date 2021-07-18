@@ -1,0 +1,6 @@
+{
+  "short_name": "TiktokWeb",
+  "name": "Tiktok Web App",
+  "start_url": "/?utm_source=homescreen",
+  "gcm_sender_id": "103953800507"
+}

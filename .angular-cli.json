@@ -1,0 +1,78 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "project": {
+    "name": "first"
+  },
+  "apps": [
+    {
+      "root": "src",
+      "outDir": "dist",
+      "assets": [
+        "assets",
+        "favicon.png",
+        "assets",
+        "favicon.ico",
+        "firebase-messaging-sw.js",
+        "manifest.json"
+      ],
+      "index": "index.html",
+      "main": "main.ts",
+      "polyfills": "polyfills.ts",
+      "test": "test.ts",
+      "tsconfig": "tsconfig.app.json",
+      "testTsconfig": "tsconfig.spec.json",
+      "prefix": "app",
+      "styles": [
+        "assets/css/bootstrap.css",
+        "assets/css/xenon-core.css",
+        "assets/css/xenon-forms.css",
+        "assets/css/xenon-components.css",
+        "assets/css/xenon-skins.css",
+        "../node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css",
+        "assets/css/custom.css"
+      ],
+      "scripts": [
+        "../node_modules/jquery/dist/jquery.min.js",
+        "../node_modules/jquery-ui/ui/core.js",
+        "../node_modules/bootstrap/dist/js/bootstrap.min.js",
+        "../node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js",
+        "../node_modules/selectboxit/src/javascripts/jquery.selectBoxIt.min.js"
+      ],
+
+      "environmentSource": "environments/environment.ts",
+      "environments": {
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts",
+        "beta": "environments/environment.beta.ts"
+      }
+    }
+  ],
+  "e2e": {
+    "protractor": {
+      "config": "./protractor.conf.js"
+    }
+  },
+  "lint": [
+    {
+      "project": "src/tsconfig.app.json",
+      "exclude": "**/node_modules/**"
+    },
+    {
+      "project": "src/tsconfig.spec.json",
+      "exclude": "**/node_modules/**"
+    },
+    {
+      "project": "e2e/tsconfig.e2e.json",
+      "exclude": "**/node_modules/**"
+    }
+  ],
+  "test": {
+    "karma": {
+      "config": "./karma.conf.js"
+    }
+  },
+  "defaults": {
+    "styleExt": "css",
+    "component": {}
+  }
+}

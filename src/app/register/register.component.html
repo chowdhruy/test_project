@@ -1,0 +1,297 @@
+<div class="login-container">
+<div class="row">
+    <div class="col-sm-12">
+        <!-- Errors container -->
+        <div class="errors-container"></div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <!-- Add class "fade-in-effect" for login form effect -->
+                <form method="post" role="form" id="login-form" class="login-form fade-in-effect"
+                    [formGroup]="signUpBasic" (ngSubmit)="onBasicRegistration()" *ngIf="enableFullForm === 0">
+                    <div class="login-header">
+                        <a href="http://tiktok.com.bd" class="logo text-left">
+                            <img src="assets/images/login-img-1.png" width="80" alt=""/>
+                        </a>
+                    </div>
+
+                    <div class="alert alert-danger-light" role="alert" *ngIf="hasError">
+                        <button type="button" class="close" (click)="closeErrorAlert()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong>Error!</strong> {{ hasError }}
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="username">Username</label>
+                        <input type="text" class="form-control" id="username" autocomplete="username"
+                            formControlName="username" placeholder="Username" appInputFocus/>
+
+                        <span *ngIf="(username.invalid && username.touched)" class="help-block">
+                            Username should be email or phone number
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-blue login  btn-block text-left"
+                                [disabled]="!signUpBasic.valid">
+                            <i class="fa-lock"></i> Next Step >
+                        </button>
+                    </div>
+
+                    <div class="login-footer">
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" role="form" id="registration-form" class="login-form fade-in-effect"
+                    [formGroup]="signUpFull" (ngSubmit)="onFullRegistration()" *ngIf="enableFullForm === 1">
+                    <div class="login-header">
+                        <a href="http://tiktok.com.bd" class="logo text-left">
+                            <img src="assets/images/login-img-1.png" width="80" alt=""/>
+                        </a>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="alert alert-danger-light" role="alert" *ngIf="hasError">
+                                <button type="button" class="close" (click)="closeErrorAlert()">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <strong>Error!</strong> {{ hasError }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label class="control-label" for="token">Token *</label>
+                                <input type="text" class="form-control" id="token" autocomplete="token"
+                                    formControlName="token" placeholder="Token" appInputFocus/>
+
+                                <span *ngIf="(token.invalid && token.touched)" class="help-block">
+                                    Token is required
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label class="control-label" for="password">Password *</label>
+                                <input type="password" class="form-control" id="password"
+                                    formControlName="password" placeholder="Password" appInputFocus/>
+
+                                <span *ngIf="(password.invalid && password.touched)" class="help-block">
+                                    Password is required with minimum 6 characters
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label class="control-label" for="merchantName">Merchant Name *</label>
+                                <input type="text" class="form-control" id="merchantName"
+                                    autocomplete="merchantName"
+                                    formControlName="merchantName" placeholder="Merchant Name" appInputFocus/>
+
+                                <span *ngIf="(merchantName.invalid && merchantName.touched)" class="help-block">
+                                    MerchantName is required
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label class="control-label" for="businessName">Business Name *</label>
+                                <input type="text" class="form-control" id="businessName"
+                                    autocomplete="businessName"
+                                    formControlName="businessName" placeholder="Business Name" appInputFocus/>
+
+                                <span *ngIf="(businessName.invalid && businessName.touched)" class="help-block">
+                                    Business Name is required
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label class="control-label" for="pickupAddress">Pickup Address</label>
+                                <input type="text" class="form-control" id="pickupAddress"
+                                    autocomplete="pickupAddress"
+                                    formControlName="pickupAddress" placeholder="Pickup Address" appInputFocus/>
+
+                                <span *ngIf="(pickupAddress.invalid && pickupAddress.touched)" class="help-block">
+                                    Pickup Address is required
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label class="control-label" for="phoneNumber">Phone Number *</label>
+                                <input type="text" class="form-control" id="phoneNumber" autocomplete="phoneNumber"
+                                    formControlName="phoneNumber" placeholder="Phone Number" appInputFocus/>
+
+                                <span *ngIf="(phoneNumber.invalid && phoneNumber.touched)" class="help-block">
+                                    Phone Number is required
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label class="control-label" for="facebook">Facebook Page URL *</label>
+                                <input type="text" class="form-control" id="facebook"
+                                    autocomplete="facebook"
+                                    formControlName="facebook" placeholder="Facebook Address"
+                                    appInputFocus/>
+
+                                <span *ngIf="(facebook.invalid && facebook.touched)" class="help-block">
+                                    Facebook address is required
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label class="control-label" for="website">Website (optional)</label>
+                                <input type="text" class="form-control" id="website" autocomplete="website"
+                                    formControlName="website" placeholder="Website" appInputFocus/>
+
+                                <span *ngIf="(website.invalid && website.touched)" class="help-block">
+                                    Website is required
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label class="control-label" for="bankName">Bank Name</label>
+                                <select class="form-control" id="bankName"
+                                        autocomplete="bankName"
+                                        formControlName="bankName" appInputFocus
+                                >
+                                    <option [value]="bank.id" *ngFor="let bank of banks">
+                                        {{bank.name}}
+                                    </option>
+                                </select>
+
+                                <span *ngIf="(bankName.invalid && bankName.touched)" class="help-block">
+                                    Bank Name is required
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label" for="bankAcNumber">Bank Account Number</label>
+                                <input type="text" class="form-control" id="bankAcNumber"
+                                    autocomplete="bankAcNumber"
+                                    formControlName="bankAcNumber" placeholder="Bank Account Number"
+                                    appInputFocus/>
+
+                                <span *ngIf="(bankAcNumber.invalid && bankAcNumber.touched)" class="help-block">
+                                    Bank Account Number is required
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label" for="bankUserName">Account Holder Name</label>
+                                <input type="text" class="form-control" id="bankUserName"
+                                    autocomplete="bankUserName"
+                                    formControlName="bankUserName" placeholder="Account Holder Name"
+                                    appInputFocus/>
+
+                                <span *ngIf="(bankUserName.invalid && bankUserName.touched)" class="help-block">
+                                    Bank Account Name is required
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label" for="walletType">Wallet Type</label>
+                                <input type="text" class="form-control" id="walletType" autocomplete="walletType"
+                                    formControlName="walletType" placeholder="Wallet Type" appInputFocus/>
+
+                                <span *ngIf="(walletType.invalid && walletType.touched)" class="help-block">
+                                    Wallet Type is required
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label" for="walletNumber">Wallet Number</label>
+                                <input type="text" class="form-control" id="walletNumber"
+                                    autocomplete="walletNumber"
+                                    formControlName="walletNumber" placeholder="Wallet Number" appInputFocus/>
+
+                                <span *ngIf="(walletNumber.invalid && walletNumber.touched)" class="help-block">
+                                    Wallet Number is required
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label class="control-label" for="reference">Reference</label>
+                                <input type="text" class="form-control" id="reference"
+                                    autocomplete="reference"
+                                    formControlName="reference" placeholder="Reference"
+                                    appInputFocus/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-blue login  btn-block text-left"
+                                        [disabled]="!signUpFull.valid">
+                                    <i class="fa-lock"></i> Complete Registration
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="login-footer">
+                                <a routerLink="/login">Already have an account? Login</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="enableFullForm === 2">
+            <div class="col-md-12 login-form">
+                <div class="login-header">
+                    <a href="http://tiktok.com.bd" class="logo text-left">
+                        <img src="assets/images/login-img-1.png" width="80" alt=""/>
+                    </a>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="alert alert-warning">
+                        You are successfully registered. We'll contact you as soon as possible.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

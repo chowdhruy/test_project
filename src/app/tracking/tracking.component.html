@@ -1,0 +1,241 @@
+<div class="page-title">
+    <div class="title-env">
+        <h1 style="font-size:20px;" class="title">Shipment Tracking</h1>
+    </div>
+</div>
+
+<div class="breadcrumb-env">
+    <div class="pull-right">
+        <input type="button" class="btn btn-info" name="daterangeInput" daterangepicker [value]="daterangeInput"
+               [options]="options"
+               (selected)="selectedDate($event)"
+               (cancelDaterangepicker)="calendarCanceled($event)"
+               (applyDaterangepicker)="calendarApplied($event)">
+        <button (click)="print()" class="btn btn-info"><i class="fa-print"></i> Print Label</button>
+        <button (click)="downloadCsv()" class="btn btn-blue"><i class="fa-download"></i> Download CSV</button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="panel-body">
+        <form class="form-horizontal" method="post" action="">
+            <div class="form-group">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <span class="fa fa-search"></span>
+                        </div>
+                        <input type="text" name="name" class="form-control" placeholder="Search..."
+                               [(ngModel)]="query"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="panel-body">
+        <ul class="nav nav-tabs nav-tabs-justified merchant-tabs">
+            <li [ngClass]="{'active': activeTab == 'all'}" (click)="changeTrackingTab('all')">
+                <a data-toggle="tab">
+                    <span class="visible-xs"><i class="fa-home"></i></span>
+                    <span class="hidden-xs">All Shipment</span>
+                </a>
+            </li>
+            <li [ngClass]="{'active': activeTab == 'processing'}" (click)="changeTrackingTab('processing')">
+                <a data-toggle="tab">
+                    <span class="visible-xs"><i class="fa-institution"></i></span>
+                    <span class="hidden-xs">Processing</span>
+                </a>
+            </li>
+            <li [ngClass]="{'active': activeTab == 'delivering'}" (click)="changeTrackingTab('delivering')">
+                <a data-toggle="tab">
+                    <span class="visible-xs"><i class="fa-envelope-o"></i></span>
+                    <span class="hidden-xs">Delivering</span>
+                </a>
+            </li>
+            <li [ngClass]="{'active': activeTab == 'delivered'}" (click)="changeTrackingTab('delivered')">
+                <a data-toggle="tab">
+                    <span class="visible-xs"><i class="fa-user"></i></span>
+                    <span class="hidden-xs">Delivered</span>
+                </a>
+            </li>
+            <li [ngClass]="{'active': activeTab == 'failed'}" (click)="changeTrackingTab('failed')">
+                <a data-toggle="tab">
+                    <span class="visible-xs"><i class="fa-user"></i></span>
+                    <span class="hidden-xs">Failed</span>
+                </a>
+            </li>
+            <li [ngClass]="{'active': activeTab == 'returned'}" (click)="changeTrackingTab('returned')">
+                <a data-toggle="tab">
+                    <span class="visible-xs"><i class="fa-user"></i></span>
+                    <span class="hidden-xs">Returned</span>
+                </a>
+            </li>
+            <li [ngClass]="{'active': activeTab == 'pending'}" (click)="changeTrackingTab('pending')">
+                <a data-toggle="tab">
+                    <span class="visible-xs"><i class="fa-user"></i></span>
+                    <span class="hidden-xs">Pending</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <app-all-shipment *ngIf="activeTab == 'all'" (checkedConsignments)="checkedConsignments($event)"
+                              (showConsignmentDetails)="showConsignment($event)"
+                              [dateStart]="dateStart" [dateEnd]="dateEnd" [query]="query"></app-all-shipment>
+            <app-processing *ngIf="activeTab == 'processing'" (checkedConsignments)="checkedConsignments($event)"
+                            (showConsignmentDetails)="showConsignment($event)"
+                            [dateStart]="dateStart" [dateEnd]="dateEnd" [query]="query"></app-processing>
+            <app-delivering *ngIf="activeTab == 'delivering'" (checkedConsignments)="checkedConsignments($event)"
+                            (showConsignmentDetails)="showConsignment($event)"
+                            [dateStart]="dateStart" [dateEnd]="dateEnd" [query]="query"></app-delivering>
+            <app-delivered *ngIf="activeTab == 'delivered'" (checkedConsignments)="checkedConsignments($event)"
+                           (showConsignmentDetails)="showConsignment($event)"
+                           [dateStart]="dateStart" [dateEnd]="dateEnd" [query]="query"></app-delivered>
+            <app-failed *ngIf="activeTab == 'failed'" (checkedConsignments)="checkedConsignments($event)"
+                        (showConsignmentDetails)="showConsignment($event)"
+                        [dateStart]="dateStart" [dateEnd]="dateEnd" [query]="query"></app-failed>
+            <app-returned *ngIf="activeTab == 'returned'" (checkedConsignments)="checkedConsignments($event)"
+                          (showConsignmentDetails)="showConsignment($event)"
+                          [dateStart]="dateStart" [dateEnd]="dateEnd" [query]="query"></app-returned>
+            <app-pending *ngIf="activeTab == 'pending'" (checkedConsignments)="checkedConsignments($event)"
+                         (showConsignmentDetails)="showConsignment($event)"
+                         [dateStart]="dateStart" [dateEnd]="dateEnd" [query]="query"></app-pending>
+        </div>
+    </div>
+</div>
+
+<!-- Tag Print Design -->
+<div id="print-section" style="display: none;">
+    <div style="float: left; border: 1px solid #000; width: 242px; padding: 20px 0"
+         *ngFor="let product of checkedProducts">
+        <table id="meta">
+            <tr>
+                <td style="width:20%; padding:5px 0px 5px 10px;">
+                    <img src="./../../../assets/images/logo-black.png" width="90px;"/>
+                </td>
+                <td>
+                    <strong style="font-size:15px; padding:7px 13px 3px;">INV- {{ product.uid }}</strong>
+                    <p style="padding:0px 15px; font-size:10px;">{{product.date_delivery  | date:'short' }}</p>
+                </td>
+            </tr>
+        </table>
+
+        <div class="merchant-details">
+            <h2>{{ product.customer.name }}</h2>
+            <p>{{ product.customer.address }}</p>
+            <p>{{ product.customer.area.name }}</p>
+            <p>{{ product.customer.district.name }}</p>
+            <h2>Mob: {{ product.customer.phone }}</h2>
+            <p style="margin-top: 8px;"><b>Comments: {{ product.merchant_instruction }}</b></p>
+        </div>
+
+        <div class="table">
+            <table id="condition">
+                <tr>
+                    <td>{{ product.is_conditional ? 'CONDITION' : 'NON CONDITION' }}</td>
+                    <td>{{ product.customer_collectible }} TK</td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="merchant-info">
+            <p>Merchant: business_name</p>
+            <p>Mobile: <b>business_phone</b></p>
+            <p>Deliveryman: </p>
+        </div>
+
+        <div class="bar-code" style="text-align: center; position: relative;">
+            barcode
+            <span style="font-size: 9px;">{{ product.uid }}</span>
+        </div>
+
+        <div class="checkbox">
+            <div class="box"></div>
+            <div class="box2">Cancel</div>
+            <div class="box"></div>
+            <div class="box2">Call not Picked</div>
+            <div class="box"></div>
+            <div class="box2">Mob off</div>
+            <div class="box"></div>
+            <div class="box2">Not at Home</div>
+        </div>
+
+        <div id="address">
+            K/a, Ainiuddin Munshi Sorok, Bashundhara R/A Road, Dhaka 1212 Mob: 0192587155,
+            info@tiktok.com.bd
+        </div>
+    </div>
+</div>
+<!-- End of Tag Print Design -->
+
+<!-- Consignment view modal design -->
+<modal id="consignment-modal">
+    <div class="modal fade custom-width" id="modal-2">
+        <div class="modal-dialog" style="width: 60%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Shipment Details</h4>
+                </div>
+                <div class="modal-body" *ngIf="consignment !== undefined">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <strong>Product Details</strong>
+                            <p><b>Weight</b>: {{ consignment.weight }} kg</p>
+                            <p><b>Customer Name</b>:{{ consignment.customer.name }}.</p>
+                            <p><b>Phone</b>: {{ consignment.customer.phone }}</p>
+                            <p><b>Address</b>: {{ consignment.customer.address }} </p>
+
+                        </div>
+                        <div class="col-md-4">
+                            <p><b>Zone</b>: {{ consignment.customer.district.name }}</p>
+                            <p><b>Location</b>: {{ consignment.customer.area.name }}</p>
+                            <p><b>Delivery Date</b>: {{ consignment.date_delivery }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <strong>Charge</strong>
+                            <p><b>Delivery Charge</b>: {{ consignment.charge_delivery }} tk.</p>
+
+                            <p><b>Condition Charge</b>: {{ consignment.charge_cod }} tk.</p>
+                            <p><b>Total Charge</b>: {{ consignment.charge_total }} tk.</p>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Status</th>
+                                        <th>Department</th>
+                                        <th>Updater Name</th>
+                                        <th>Ambassador</th>
+                                        <th>Status Note</th>
+                                        <th>Note</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr *ngFor="let h of consignment.histories">
+                                           <td>{{ h.status }}</td>
+                                           <td>{{ h.department }}</td>
+                                           <td>{{ h.status_by.name }}</td>
+                                           <td>{{ h.ambassador.name }}</td>
+                                           <td>{{ h.status_note }}</td>
+                                           <td>{{ h.note }}</td>
+                                       </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-backdrop fade" style="display: none;"></div>
+</modal>
+<!-- End of consignment view modal design -->

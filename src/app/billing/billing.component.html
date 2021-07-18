@@ -1,0 +1,206 @@
+<div class="page-title">
+    <div class="title-env">
+        <h1 style="font-size:20px;" class="title">Billing</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 text-right">
+        <input type="button" class="btn btn-info btn-shadow" name="daterangeInput" daterangepicker
+               [value]="daterangeInput" [options]="options"
+               (selected)="selectedDate($event)"
+               (cancelDaterangepicker)="calendarCanceled($event)"
+               (applyDaterangepicker)="calendarApplied($event)">
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="panel-body">
+        <form class="form-horizontal" method="post" action="">
+            <div class="form-group">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <span class="fa fa-search"></span>
+                        </div>
+                        <input type="text" name="name" id="foo_filter" class="form-control" placeholder="Search..."
+                               [(ngModel)]="query"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <div class="panel-body">
+        <ul class="nav nav-tabs nav-tabs-justified merchant-tabs">
+            <li [ngClass]="{'active': activeTab == 'paid'}" (click)="changeBillingTab('paid')">
+                <a data-toggle="tab">
+                    <span class="visible-xs"><i class="fa-home"></i></span>
+                    <span class="hidden-xs">Paid</span>
+                </a>
+            </li>
+            <li [ngClass]="{'active': activeTab == 'unpaid'}" (click)="changeBillingTab('unpaid')">
+                <a data-toggle="tab">
+                    <span class="visible-xs"><i class="fa-institution"></i></span>
+                    <span class="hidden-xs">Unpaid</span>
+                </a>
+            </li>
+            <li [ngClass]="{'active': activeTab == 'invoice'}" (click)="changeBillingTab('invoice')">
+                <a data-toggle="tab">
+                    <span class="visible-xs"><i class="fa-envelope-o"></i></span>
+                    <span class="hidden-xs">Invoice Details</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <app-paid *ngIf="activeTab == 'paid'" (checkedConsignments)="checkedConsignments($event)"
+                      [dateStart]="dateStart" [dateEnd]="dateEnd"
+                      (showConsignmentDetails)="showConsignment($event)"
+                      [query]="query"
+            ></app-paid>
+            <app-unpaid *ngIf="activeTab == 'unpaid'" (checkedConsignments)="checkedConsignments($event)"
+                        [dateStart]="dateStart" [dateEnd]="dateEnd"
+                        (showConsignmentDetails)="showConsignment($event)"
+                        [query]="query"
+            ></app-unpaid>
+            <app-invoice-details *ngIf="activeTab =='invoice'"
+                                 [dateStart]="dateStart" [dateEnd]="dateEnd"
+                                 [query]="query"
+            ></app-invoice-details>
+        </div>
+    </div>
+</div>
+
+
+<modal id="consignment-modal">
+    <div class="modal fade custom-width" id="modal-2">
+        <div class="modal-dialog" style="width: 60%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Shipment Details</h4>
+                </div>
+                <div class="modal-body" *ngIf="consignment !== undefined">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <strong>Product Details</strong>
+                            <p>Weight: {{ consignment.weight }} kg</p>
+                            <p>Customer Name:{{ consignment.customer.name }}.</p>
+                            <p>Phone: {{ consignment.customer.phone }}</p>
+                            <p>Address: {{ consignment.customer.address }} </p>
+                            <p>Zone: {{ consignment.customer.district.name }}</p>
+                            <p>Location: {{ consignment.customer.area.name }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <strong>Charge</strong>
+                            <p>Delivery Charge: {{ consignment.charge_delivery }} tk.</p>
+
+                            <p>Condition Charge: {{ consignment.charge_cod }} tk.</p>
+                            <p>Total Charge: {{ consignment.charge_total }} tk.</p>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Status</th>
+                                        <th>Department</th>
+                                        <th>Customer Name</th>
+                                        <th>Ambassador</th>
+                                        <th>Status Note</th>
+                                        <th>Note</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr *ngFor="let h of consignment.histories">
+                                        <td>{{ h.status }}</td>
+                                        <td>{{ h.department }}</td>
+                                        <td>{{ h.status_by.name }}</td>
+                                        <td>{{ h.ambassador.name }}</td>
+                                        <td>{{ h.status_note }}</td>
+                                        <td>{{ h.note }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-backdrop fade" style="display: none;"></div>
+</modal>
+
+<modal id="invoice-modal">
+    <div class="modal fade custom-width" id="modal-3">
+        <div class="modal-dialog" style="width: 60%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Shipment Details</h4>
+                </div>
+                <div class="modal-body" *ngIf="consignment !== undefined">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <strong>Payment Details</strong>
+                            <p>Method: {{ consignment.weight }} kg</p>
+                            <p>Instrument Details:{{ consignment.customer.name }}.</p>
+                            <p>Payment Date: {{ consignment.customer.phone }}</p>
+                            <p>Amount: {{ consignment.customer.address }} </p>
+                            <p>Zone: {{ consignment.customer.district.name }}</p>
+                            <p>Location: {{ consignment.customer.area.name }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <strong>Charge</strong>
+                            <p>Delivery Charge: {{ consignment.charge_delivery }} tk.</p>
+
+                            <p>Condition Charge: {{ consignment.charge_cod }} tk.</p>
+                            <p>Total Charge: {{ consignment.charge_total }} tk.</p>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <strong>Paid Consignments</strong>
+                                    <thead>
+                                    <tr>
+                                        <th>Con.ID</th>
+                                        <th>Invoice</th>
+                                        <th>Total Collected</th>
+                                        <th>Total Charge</th>
+                                        <th>Total Payable</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr *ngFor="let h of consignment.histories">
+                                        <td>{{ h.status }}</td>
+                                        <td>{{ h.department }}</td>
+                                        <td>{{ h.status_by.name }}</td>
+                                        <td>{{ h.ambassador.name }}</td>
+                                        <td>{{ h.status_note }}</td>
+                                        <td>{{ h.note }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-backdrop fade" style="display: none;"></div>
+</modal>

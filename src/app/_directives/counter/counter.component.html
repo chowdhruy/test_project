@@ -1,0 +1,12 @@
+<div class="col-{{ size }}">
+    <div class="xe-widget xe-counter" [countDisplay]="'.num'" [countFrom]="from" [countTo]="target"
+         [countDuration]="'2'" appWidgetCounter>
+        <div class="xe-icon" [ngStyle]="{'background-color':colorIcon}">
+            <i [ngClass]="classIcon"></i>
+        </div>
+        <div class="xe-label" [ngStyle]="{'background-color':colorLabel}">
+            <strong class="num" style="text-align:center; color:#fff;">{{ target }}</strong>
+            <span>{{ title }}</span>
+        </div>
+    </div>
+</div>

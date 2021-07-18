@@ -1,0 +1,43 @@
+<div class="login-container">
+    <div class="row">
+        <div class="col-sm-6">
+            <!-- Add class "fade-in-effect" for login form effect -->
+            <form method="post" role="form" id="login-form" class="login-form fade-in-effect" #loginForm="ngForm">
+                <div class="login-header">
+                    <a href="http://tiktok.com.bd" class="logo text-left">
+                        <img src="assets/images/login-img-1.png" width="80" alt=""/>
+                    </a>
+                </div>
+
+                <div class="alert alert-danger-light" role="alert" *ngIf="hasError">
+                    <button type="button" class="close" (click)="closeErrorAlert()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>Error!</strong> {{ hasError }}
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="username">Email / Phone Number</label>
+					<input type="text" class="form-control" name="name" id="username" autocomplete="off" [(ngModel)]="username" appInputFocus/>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="password">Password</label>
+					<input type="password" class="form-control" name="password" id="password" autocomplete="off" [(ngModel)]="password" appInputFocus/>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-blue login  btn-block text-left" (click)="login()">
+                        <i class="fa-lock"></i> Log In
+                    </button>
+                </div>
+
+                <div class="login-footer">
+                    <a href="#">Forgot your password?</a>
+                    <br>
+                    <a routerLink="/register">Don't have an account? Register</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

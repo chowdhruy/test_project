@@ -1,0 +1,89 @@
+<div class="panel panel-default">
+    <div class="row">
+        <div class="panel-heading">
+            <div class="breadcrumb-env">
+                <!--<h3 class="text-center">Status History</h3>-->
+            </div>
+
+            <!--<div class="pull-right">-->
+                <!--<div class="panel-body">-->
+                    <!--<button type="button" class="btn btn-info" (click)="backClicked()">-->
+                        <!--<i class="fa-arrow-circle-left"></i>-->
+                    <!--</button>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+
+        <div class="col-md-12">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <strong>Product Details</strong>
+                        <table class="table table-condensed" *ngIf="consignment !== undefined">
+                            <tr>
+                                <td>Weight</td>
+                                <td class="text-right"> {{ consignment.weight }} kg</td>
+                            </tr>
+                            <tr>
+                                <td>Customer Name</td>
+                                <td class="text-right">{{ consignment.customer.name }}</td>
+                            </tr>
+                            <tr>
+                                <td>Customer Phone</td>
+                                <td class="text-right">{{consignment.customer.phone}}</td>
+                            </tr>
+                            <tr>
+                                <td>Customer Address</td>
+                                <td class="text-right">{{consignment.customer.address}}</td>
+                            </tr>
+                            <tr>
+                                <td>Zone</td>
+                                <td class="text-right">{{ consignment.customer.district.name }}</td>
+                            </tr>
+                            <tr>
+                                <td>Location</td>
+                                <td class="text-right"> {{ consignment.customer.area.name }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-6 text-right" *ngIf="consignment !== undefined">
+                        <strong>Charge: {{ consignmentId }}</strong>
+                        <p>Delivery Charge: {{ consignment.charge_delivery }} tk.</p>
+                        <b>Weight Charge: 0 tk.</b>
+                        <p></p>
+                        <p>Condition Charge: {{ consignment.charge_cod }} tk.</p>
+                        <p>Total Charge: {{ consignment.charge_total }} tk.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="table-responsive" *ngIf="consignment !== undefined">
+                    <table class="table table-condensed">
+                        <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Department</th>
+                            <th>Updater Name</th>
+                            <th>Ambassador</th>
+                            <th>Status Note</th>
+                            <th>Note</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let h of consignment.histories">
+                            <td>{{ h.status }}</td>
+                            <td>{{ h.department }}</td>
+                            <td>{{ h.status_by.name }}</td>
+                            <td>{{ h.ambassador.name }}</td>
+                            <td>{{ h.status_note }}</td>
+                            <td>{{ h.note }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

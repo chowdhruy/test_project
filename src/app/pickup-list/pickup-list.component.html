@@ -1,0 +1,124 @@
+<!-- link CSS compatibility patch -->
+
+<div class="page-title">
+    <div class="title-env">
+        <h1 style="font-size:20px;" class="title">Pickup Details</h1>
+    </div>
+
+    <div class="breadcrumb-env"></div>
+</div>
+
+<!--<h2>CSV Data</h2>
+
+<div>
+    <button class="btn btn1 btn2" (click)="readCsvData()">
+        Read CSV Data
+    </button>
+</div>-->
+
+<br/><br/>
+
+<div>
+    <table border="1" class="demoTable">
+        <tr *ngFor="let x of csvData">
+            <td *ngFor="let y of x">{{ y }}</td>
+        </tr>
+    </table>
+</div>
+
+<div class="row">
+    <div class="panel-body">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Pickup List</h3>
+            </div>
+
+            <div class="row">
+                <div class="panel-body admin-datatable">
+                    <div class="table-responsive" data-pattern="priority-columns" data-focus-btn-icon="fa-asterisk"
+                         data-sticky-table-header="true" data-add-display-all-btn="true" data-add-focus-btn="true">
+
+                        <table class="table table-striped table-bordered table-hover sys_table footable"
+                               data-filter="#foo_filter" data-page-size="50">
+                            <thead>
+                            <tr class="replace-inputs">
+                                <th class="no-sorting">
+                                    <input type="checkbox" class="cbr pull-left">
+                                </th>
+                                <th>Pickup Id</th>
+                                <th>Request Time</th>
+                                <th>Total Quantity</th>
+                                <th>Time Frame</th>
+                                <th>Status</th>
+                                <th class="no-sorting text-center">Manage</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" class="cbr">
+                                </td>
+                                <th>034034</th>
+                                <td>8/12/2017</td>
+                                <td>20</td>
+                                <td>2pm-4pm</td>
+                                <td>Repeated</td>
+                                <td class="text-right">
+                                    <a href="" class="btn btn-danger btn-xs cdelete"><i class="fa fa-trash"></i></a>
+
+                                    <!--<button class="btn btn-icon btn-primary">-->
+                                    <!--<i class="fa-eye"></i>-->
+                                    <!--</button>-->
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <a class="btn btn-info btn-xs" (click)="openModal('custom-modal-1')"><i
+                                class="fa fa-eye"></i></a>
+
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                                <ul class="pagination">
+                                    <li><a href="#"><i class="fa-angle-left"></i></a></li>
+                                    <li><a href="#">1</a></li>
+                                    <li class="active"><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li class="disabled"><a href="#">4</a></li>
+                                    <li><a href="#">5</a></li>
+                                    <li><a href="#">6</a></li>
+                                    <li><a href="#"><i class="fa-angle-right"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<modal id="custom-modal-1">
+    <div class="modal fade" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Basic Modal</h4>
+                </div>
+
+                <div class="modal-body">
+                    Hello I am a Modal!<br>
+                    Home page text: {{ bodyText }}
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" (click)="closeModal('custom-modal-1');">Close</button>
+                    <button type="button" class="btn btn-info">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-backdrop fade" style="display: none;"></div>
+</modal>

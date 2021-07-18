@@ -1,0 +1,293 @@
+<div class="tab-pane" id="business">
+  <div class="panel-body admin-datatable">
+    <div class="breadcrumb-env">
+      <div class="pull-right">
+        <button [disabled]=!hasCheck class="btn btn-info btn-shadow" (click)=" openConfirm('custom-modal-2') ">
+          <i class="fa fa">Confirm</i></button>
+        <!--<button [disabled]=!hasCheck class="btn btn-danger btn-shadow"
+                (click)="deleteGroup('alert-view', 0)"><i class="fa fa-trash"></i> Delete
+        </button>-->
+        <button [disabled]=!hasCheck (click)="print()" class="btn btn-info btn-shadow"><i class="fa-print"></i>
+          Print Label
+        </button>
+        <button [disabled]=!hasCheck (click)="downloadCsv()" class="btn btn-blue btn-shadow"><i
+          class="fa-download"></i> Download
+        </button>
+      </div>
+    </div>
+
+    <div class="table-responsive" data-pattern="priority-columns" data-focus-btn-icon="fa-asterisk"
+         data-sticky-table-header="true" data-add-display-all-btn="true" data-add-focus-btn="true">
+
+      <table class="table table-bordered table-hover sys_table footable" data-filter="#foo_filter"
+             data-page-size="50">
+        <thead>
+        <tr class="replace-inputs">
+          <th class="no-sorting"></th>
+          <th>Consignment</th>
+          <th>Customer Name</th>
+          <th>Address</th>
+          <th>Phone</th>
+          <th>Merchant Label</th>
+          <th>Amount</th>
+          <th class="no-sorting text-center">Manage</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let product of products">
+          <td>
+            <input type="checkbox" (change)="checkConsignments($event, product.uid)" class="checkAll"/>
+          </td>
+          <th>{{ product.uid }}</th>
+          <td>{{ product.customer.name }}</td>
+          <td>{{ product.customer.district.name }}</td>
+          <td>{{ product.customer.phone }}</td>
+          <td>{{ product.order_label }}</td>
+          <td>{{ product.customer_collectible }}</td>
+          <td class="text-right">
+            <a routerLink="/delivery/new-delivery/{{ product.uid }}" class="btn btn-success btn-xs"
+               title="Edit"><i class="fa-pencil"></i> </a>
+            <a class="btn btn-info btn-xs" (click)="openModal('consignment-view', product.uid)"
+               title="view"><i class="fa fa-search"></i> </a>
+            <a type="button" class="btn btn-danger btn-xs cdelete" title="Cancel"
+               (click)="openDeleteAlert('alert-view', product.uid)"><i class="fa fa-times"></i></a>
+
+            <!--<a class="btn btn-info btn-xs" (click)="openModal('consignment-view')"><i class="fa fa-eye"></i></a>-->
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <div class="row">
+        <div class="col-md-12 text-right">
+          <ngb-pagination *ngIf='pagination' [collectionSize]="pagination.total"
+                          [(page)]="pagination.current_page" [(pageSize)]="pagination.per_page"
+                          (pageChange)="onPageChange($event)"
+                          aria-label="Default pagination"></ngb-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tag Print Design -->
+  <div id="print-section" style="display: none;">
+    <div style="float: left; border: 1px solid #000; width: 242px; padding: 20px 0"
+         *ngFor="let product of confirmProducts">
+      <table id="meta">
+        <tr>
+          <td style="width:20%; padding:5px 0px 5px 10px;">
+            <img src="./../../../assets/images/logo-black.png" width="90px;"/>
+          </td>
+          <td>
+            <strong style="font-size:15px; padding:7px 13px 3px;">INV- {{ product.uid }}</strong>
+            <p style="padding:0px 15px; font-size:10px;">date("j M Y g:i a")</p>
+          </td>
+        </tr>
+      </table>
+
+      <div class="merchant-details">
+        <h2>{{ product.customer.name }}</h2>
+        <p>{{ product.customer.address }}</p>
+        <p>{{ product.customer.area.name }}</p>
+        <p>{{ product.customer.district.name }}</p>
+        <h2>Mob: {{ product.customer.phone }}</h2>
+        <p style="margin-top: 8px;"><b>Comments: {{ product.merchant_instruction }}</b></p>
+      </div>
+
+      <div class="table">
+        <table id="condition">
+          <tr>
+            <td>{{ product.is_conditional ? 'CONDITION' : 'NON CONDITION' }}</td>
+            <td>{{ product.customer_collectible }} TK</td>
+          </tr>
+        </table>
+      </div>
+
+      <div id="merchant-info">
+        <p>Merchant: business_name</p>
+        <p>Mobile: <b>business_phone</b></p>
+        <p>Deliveryman: </p>
+      </div>
+
+      <div class="bar-code" style="text-align: center; position: relative;">
+        barcode
+        <span style="font-size: 9px;">{{ product.uid }}</span>
+      </div>
+
+      <div class="checkbox">
+        <div class="box"></div>
+        <div class="box2">Cancel</div>
+        <div class="box"></div>
+        <div class="box2">Call not Picked</div>
+        <div class="box"></div>
+        <div class="box2">Mob off</div>
+        <div class="box"></div>
+        <div class="box2">Not at Home</div>
+      </div>
+
+      <div id="address">
+        K/a, Ainiuddin Munshi Sorok, Bashundhara R/A Road, Dhaka 1212 Mob: 0192587155,
+        info@tiktok.com.bd
+      </div>
+    </div>
+  </div>
+  <!-- End of Tag Print Design -->
+</div>
+
+<modal id="consignment-view">
+  <div class="modal fade" style="display: none;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Consignment Details</h4>
+        </div>
+        <div class="modal-body" *ngIf="consignment !== undefined">
+          <div class="row">
+            <div class="col-md-4">
+              <strong>Product Details</strong>
+              <p>Weight: {{ consignment.weight }} kg</p>
+              <p>{{ consignment.customer.name }}</p>
+              <p>{{ consignment.customer.phone }}</p>
+              <p>{{ consignment.customer.address }}</p>
+              <p>Zone: {{ consignment.customer.district.name }}</p>
+              <p>Location: {{ consignment.customer.area.name }}</p>
+            </div>
+            <div class="col-md-4">
+              <strong>Charge</strong>
+              <p>Delivery Charge: {{ consignment.charge_delivery }} tk.</p>
+              <p>Weight Charge: 0 tk.</p>
+              <p>Condition Charge: {{ consignment.charge_cod }} tk.</p>
+              <p>Total Charge: {{ consignment.charge_total }} tk.</p>
+            </div>
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                  <tr>
+                    <th>Status</th>
+                    <th>Department</th>
+                    <th>Updater Name</th>
+                    <th>Ambassador</th>
+                    <th>Status Note</th>
+                    <th>Note</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let h of consignment.histories">
+                    <td>{{ h.status }}</td>
+                    <td>{{ h.department }}</td>
+                    <td>{{ h.status_by.name }}</td>
+                    <td>{{ h.ambassador.name }}</td>
+                    <td>{{ h.status_note }}</td>
+                    <td>{{ h.note }}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-white" (click)="closeModal('consignment-view');">Close</button>
+          <!--<button type="button" class="btn btn-info">Save changes</button>-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade" style="display: none;"></div>
+</modal>
+
+<modal id="alert-view">
+  <div class="modal fade" style="display: none;">
+    <div class="modal-dialog" style="width:60%">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-4">
+              <p>Are You Sure You Want To Delete ?</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+          <button type="button" (click)="delete(deleteTarget)" class="btn btn-danger">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade" style="display: none;"></div>
+</modal>
+
+<modal id="custom-modal-2">
+  <div class="modal fade custom-width" id="modal-2">
+    <div class="modal-dialog" style="width: 70%;">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Consignment</h4>
+        </div>
+
+        <div class="modal-body">
+          <div class="pull-left">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label-label">Select Address<span
+                  style="color:red"> *</span></label>
+
+                <select class="form-control" name="address_id" [(ngModel)]="pickup.address_id">
+                  <option [value]="address.id" *ngFor="let address of addresses">{{address.address}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label-label">Date</label>
+                <input type="text" class="form-control" id="request_date" [options]="options"
+                       name="request_date" [(ngModel)]="pickup.request_date" daterangepicker
+                       (selected)="selectedDate($event, daterange)">
+              </div>
+            </div>
+          </div>
+          <table class="table table-bordered table-hover sys_table footable" data-filter="#foo_filter"
+                 data-page-size="50">
+            <thead>
+            <tr class="replace-inputs">
+              <th>Consignment</th>
+              <th>Customer Name</th>
+              <th>Address</th>
+              <th>Phone</th>
+              <th>Merchant Label</th>
+              <th>Amount</th>
+              <!--     <th class="no-sorting text-center" >Manage</th> -->
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let cp of confirmProducts">
+              <th>{{ cp.uid }}</th>
+              <td>{{ cp.customer.name }}</td>
+              <td>{{ cp.customer.district.name }}</td>
+              <td>{{ cp.customer.area.name }}</td>
+              <td>{{ cp.order_label }}</td>
+              <td>{{ cp.customer_collectible }}</td>
+              <!-- <td class="text-right">
+                  <button class="btn btn-danger btn-xs cdelete" (click)="delete(product.id)" title="Cancel" ><i class="fa fa-times"></i></button>
+              </td> -->
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info" (click)="add();">Confirm</button>
+          <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade" style="display: none;"></div>
+</modal>

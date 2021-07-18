@@ -1,0 +1,123 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+.sidebar-menu{
+    width: 300px;
+}
+.control-label-label{
+    font-weight: bold;
+}
+
+html .select2-drop .select2-results li.select2-highlighted {
+    background-color: #4160a0;
+}
+
+.margin-top25 {
+    margin-top: 25px;
+}
+.user-info-navbar {
+    background-color: #4160a0;
+}
+.user-info-navbar .user-info-menu > li {
+    border: none;
+}
+.user-info-navbar .user-info-menu > li > a {
+    padding-right: 25px;
+    color: #ffffff;
+    border-bottom: 0;
+}
+.user-info-navbar .user-info-menu > li > a:hover {
+    color: #ffffff;
+}
+
+.user-info-navbar .user-info-menu > li.hover-line:before {
+    background: #ffffff;
+}
+
+.sidebar-menu.collapsed+.main-content .user-info-navbar .user-info-menu a[data-toggle=sidebar]{
+    color: #fff;
+}
+
+.page-container .main-content .page-title .title-env {
+    padding-left: 25px;
+}
+.page-container .main-content .page-title .breadcrumb-env {
+    padding-right: 25px;
+}
+.panel-heading-heading {
+    padding: 20px 15px;
+}
+html .select2-container .select2-choice,
+.form-control {
+    height:50px;
+}
+.nav.nav-tabs.merchant-tabs > li > a{
+    background-color:#0e62c7;
+}
+.nav.nav-tabs.merchant-tabs > li.active > a{
+    background-color: #40bbea;
+}
+
+.sys_table > thead > tr > th, .sys_table > thead > tr > td {
+    background:#E2E5E9;
+}
+
+.nav-tabs > li > a,
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover{
+    color:#ffffff;
+}
+
+.table-hover > tbody > tr:hover > td, .table-hover > tbody > tr:hover > th {
+    background: #c3e6fc;
+}
+.sys_table > tbody > tr:hover > td, .table-hover > tbody > tr:hover > th {
+    background: #c3e6fc;
+}
+.nav.nav-tabs+.tab-content{
+    padding: 25px 0px;
+}
+
+
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+    vertical-align:center;
+}
+
+
+
+.panel-body {
+    padding: 10px;
+}
+.input-group-addon {
+    background-color: #4160a0;
+    color: #e4d8d8;
+}
+.pagination > .active > a {
+    background-color: #4160a0;
+    border-color: #4160a0;
+}
+.pagination > .active > a:hover {
+    background-color: #4160a0;
+    border-color: #4160a0;
+}
+
+.btn-shadow {
+    box-shadow: 0 10px 20px rgba(0,0,0,.19), 0 6px 6px rgba(0,0,0,.23);
+}
+.btn-xs,
+.btn-group-xs > .btn {
+    width: 25px;
+}
+
+.nav-tabs > li.active > a:focus {
+    color:#ffffff;
+}
+
+.bottom-15 {
+    margin-bottom: 15px;
+}

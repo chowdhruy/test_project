@@ -1,0 +1,86 @@
+<div class="page-title">
+    <div class="title-env">
+        <h1 style="font-size:20px;" class="title">Pickup Details</h1>
+    </div>
+
+    <div class="breadcrumb-env"></div>
+</div>
+
+<div class="alert alert-danger-light" role="alert" *ngIf="hasError">
+    <button type="button" class="close" (click)="closeErrorAlert()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <strong>Error!</strong> {{ hasError }}
+</div>
+
+<div class="row">
+    <div class="panel-body">
+        <form role="form" id="pickup-form" method="post" class="validate" #pickupForm="ngForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label-label">Select Address<span style="color:red"> *</span></label>
+
+                        <select class="form-control" name="address_id" [(ngModel)]="pickup.address_id">
+                            <option [value]="address.id" *ngFor="let address of addresses">{{address.address}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label-label" for="quantity">Approximate Quantity</label>
+
+                        <input type="number" class="form-control" name="quantity" id="quantity"
+                               [(ngModel)]="pickup.quantity" required/>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+
+                        <label class="control-label-label">Date<span style="color:red"> *</span></label>
+                        <input type="text" class="form-control" id="request_date" [options]="options"
+                               name="request_date" [(ngModel)]="pickup.request_date" daterangepicker
+                               (selected)="selectedDate($event, daterange)">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label-label" for="time-frames">Time Frame</label>
+
+                        <select class="form-control" name="timeFrame" id="time-frames" required
+                                [(ngModel)]="pickup.timeFrame">
+                            <option *ngFor="let timeFrame of timeFrames" [value]="timeFrame">{{ timeFrame }}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label-label" for="notes">Notes</label>
+
+                        <textarea class="form-control" rows="10" name="notes" id="notes"
+                                  [(ngModel)]="pickup.notes"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-left">
+                    <button class="btn btn-success btn-form" (click)="add();"><span>Submit</span></button>
+                    <button class="btn btn-danger btn-form"><span>Cancel</span></button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!--<div class="row">
+        <div class="col-md-12">
+            <h1>My First Attribute Directive</h1>
+            <p appMyDatePicker>Highlight me!</p>
+        </div>
+    </div>-->
+</div>
+

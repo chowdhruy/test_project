@@ -1,0 +1,83 @@
+<div class="panel panel-default">
+  <div class="row">
+    <div class="panel-heading">
+      <div class="breadcrumb-env">
+        <!--<h3 class="text-center">Status History</h3>-->
+      </div>
+
+      <!--<div class="pull-right">-->
+      <!--<div class="panel-body">-->
+      <!--<button type="button" class="btn btn-info" (click)="backClicked()">-->
+      <!--<i class="fa-arrow-circle-left"></i>-->
+      <!--</button>-->
+      <!--</div>-->
+      <!--</div>-->
+    </div>
+
+    <div class="col-md-12">
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-6">
+            <strong>Product Details</strong>
+            <table class="table table-condensed">
+              <tr>
+                <td>Weight</td>
+                <td class="text-right">  {{ payment.method}}</td>
+              </tr>
+              <tr>
+                <td>Customer Name</td>
+                <td class="text-right">{{payment.instrument_details}}</td>
+              </tr>
+              <tr>
+                <td>Customer Phone</td>
+                <td class="text-right">{{payment.payment_date }}</td>
+              </tr>
+
+            </table>
+          </div>
+          <div class="col-md-6 text-right">
+            <strong>Charge:</strong>
+            <p>Delivery Charge: tk.</p>
+            <b>Weight Charge: 0 tk.</b>
+            <p></p>
+            <p>Condition Charge: tk.</p>
+            <p>Total Charge:  tk.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <div class="table-responsive">
+          <table class="table table-condensed" *ngIf="payment !== undefined">
+            <thead>
+            <tr>
+              <th>Con.ID</th>
+              <th>Invoice</th>
+              <th>Updater Name</th>
+              <th>Total Colected</th>
+              <th>Weight Charge</th>
+              <th>Cod Charge</th>
+              <th>Delivery Charge</th>
+              <th>Total Payable</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of payment.items">
+              <td>{{item.uid}}</td>
+              <td>{{item.invoice}}</td>
+              <td>{{item.collected_amount}}</td>
+              <td>{{item.charge_weight}}</td>
+              <td>{{item.charge_cod}}</td>
+              <td>{{item.charge_delivery}}</td>
+              <td>{{item.amount}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

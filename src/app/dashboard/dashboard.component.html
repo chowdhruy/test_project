@@ -1,0 +1,28 @@
+<div class="row" *ngIf="isApproved()">
+    <app-counter [target]="overview.total_sales" [title]="'Total Sales'" [classIcon] = "'fa-bar-chart-o'" [colorIcon]="'#56B949'"
+                 [colorLabel]="'#78c76d'"></app-counter>
+    <app-counter [target]="overview.total_paid" [title]="'Total Paid Amount'" [classIcon] = "'linecons-money'" [colorIcon]="'#88C542'"
+                 [colorLabel]="'#9ECF66'"></app-counter>
+    <app-counter [target]="overview.total_shipping_cost" [title]="'Total Shipping Cost'" [classIcon] = "'linecons-money'" [colorIcon]="'#844D9E'"
+                 [colorLabel]="'#9D71B1'"></app-counter>
+    <app-counter [target]="overview.amount_uninvoiced" [title]="'Uninvoiced Amount'" [classIcon] = "'fa-file-text'" [colorIcon]="'#EE4035'"
+                 [colorLabel]="'#F1665D'"></app-counter>
+    <app-counter [target]="overview.amount_unsettled" [title]="'Unsettled Amount'" [classIcon] = "'fa-circle-o-notch'" [colorIcon]="'#B02E67'"
+                 [colorLabel]="'#C05885'"></app-counter>
+    <app-counter [target]="overview.parcels_delivered" [title]="'Delivered Parcels'" [classIcon] = "'linecons-paper-plane'" [colorIcon]="'#30499B'"
+                 [colorLabel]="'#596DAF'"></app-counter>
+    <app-counter [target]="overview.parcels_returned" [title]="'Returned Parcels'" [classIcon] = "'fa fa-automobile'" [colorIcon]="'#4CB2DA'"
+                 [colorLabel]="'#6EC0DB'"></app-counter>
+    <app-counter [target]="overview.parcels_pending" [title]="'Pending Parcels'" [classIcon] = "'fa-spinner circle-remove'" [colorIcon]="'#F0A32F'"
+                 [colorLabel]="'#F3B559'"></app-counter>
+
+    <div class="clearfix"></div>
+</div>
+
+<div class="row" *ngIf="!isApproved()">
+    <div class="alert alert-warning">
+        You account isn't approved yet. You can use full functionality of this panel when approved.
+        <br>
+        Please contact with Tiktok Customer Care.
+    </div>
+</div>

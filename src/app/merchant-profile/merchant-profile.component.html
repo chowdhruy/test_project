@@ -1,0 +1,377 @@
+<div class="page-title">
+    <div class="title-env">
+        <div class="panel-title">
+            Merchant Profile
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="alert alert-success-light" role="alert" *ngIf="success">
+        <button type="button" class="close" (click)="closeErrorAlert()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Success!</strong> {{ success }}
+    </div>
+
+    <ul class="nav nav-tabs nav-tabs-justified merchant-tabs">
+        <li class="active">
+            <a href="#all" data-toggle="tab">Owner Info</a>
+        </li>
+        <li>
+            <a href="#business" data-toggle="tab">Business Info</a>
+        </li>
+        <li>
+            <a href="#payment" data-toggle="tab">Payment Info</a>
+        </li>
+        <li>
+            <a href="#contact" data-toggle="tab">Contact Person</a>
+        </li>
+    </ul>
+
+    <div class="panel-body">
+        <div class="tab-content">
+            <div class="tab-pane active" id="all">
+                <div class="alert alert-danger-light" role="alert" *ngIf="profileError">
+                    <button type="button" class="close" (click)="closeErrorAlert()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>Error!</strong> {{ profileError }}
+                </div>
+                <form [formGroup]="myForm" (ngSubmit)="onSubmit('profile')">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <label class="control-label-label">First Name</label>
+                                <input type="text" class="form-control" formControlName="first_name"/>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label-label">Last Name</label>
+                                <input type="text" formControlName="last_name" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label-label">Address</label>
+                                <input type="text" formControlName="address_01" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label-label">Cell Phone</label>
+                                <input type="text" formControlName="phone" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label-label">Email</label>
+                                <input type="text" formControlName="email" id="email" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label-label">Gender</label>
+                                <input type="text" formControlName="gender" class="form-control" value=""/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 text-left">
+                            <button type="submit" class="btn btn-success btn-form">
+                                <span>Update</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="tab-pane" id="business">
+                <div class="alert alert-danger-light" role="alert" *ngIf="businessError">
+                    <button type="button" class="close" (click)="closeErrorAlert()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>Error!</strong> {{ businessError }}
+                </div>
+
+                <form [formGroup]="businessForm" (ngSubmit)="onSubmit('business')">
+                    <div [formGroupName]="'business_info'">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label-label">Business Name</label>
+                                <input type="text" class="form-control" formControlName="business_name"/>
+                            </div>
+                        </div>
+                        <!--<div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label-label">Product Type</label>
+                                <select class="form-control">
+                                    <option>Select Your Product</option>
+                                    <option>Jwellery</option>
+                                    <option>Cloth</option>
+                                </select>
+                            </div>
+                        </div>-->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label-label">Business Phone</label>
+                                <input type="text" class="form-control" formControlName="business_phone"/>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label-label">Facebook Page/Group</label>
+                                <input type="text" class="form-control" formControlName="facebook">
+                            </div>
+                        </div>
+                        <div class="col-md-6 percel-weight">
+                            <div class="form-group">
+                                <label class="control-label-label">Website</label>
+                                <input type="text" class="form-control" formControlName="website">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12" formArrayName="pickup_addresses">
+                            <div *ngFor="let pickup_address of formPickupAddress.controls; let i=index">
+                                <div [formGroupName]="i" class="col-md-12 box-border">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h5>
+                                                <b>Pickup Address {{ i + 1 }}</b>
+                                                <span class="glyphicon glyphicon-remove pull-right"
+                                                      *ngIf="formPickupAddress.controls.length > 1"
+                                                      (click)="removePickupAddress(i)"></span>
+                                            </h5>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label-label">Zone</label>
+                                                <select class="form-control select-search" formControlName="district_id"
+                                                        placeholder="Select the Zone">
+                                                    <option [value]="district.id" *ngFor="let district of districts">
+                                                        {{district.name}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label-label">Area</label>
+                                                <select class="form-control" formControlName="district_area_id" placeholder="Select Area">
+                                                    <option [value]="area.id" *ngFor="let area of areas">
+                                                        {{area.name}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 percel-weight">
+                                            <div class="form-group">
+                                                <label class="control-label-label">Pickup Address</label>
+                                                <textarea class="form-control noresize"
+                                                          formControlName="address"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <button type="button" (click)="addPickupAddress()" class="btn btn-success btn-form"
+                                    style="cursor: default">
+                                Add More Address +
+                            </button>
+                            <button type="submit" class="btn btn-success btn-form">
+                                <span>Update</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="tab-pane" id="payment">
+                <div class="alert alert-danger-light" role="alert" *ngIf="paymentError">
+                    <button type="button" class="close" (click)="closeErrorAlert()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>Error!</strong> {{ paymentError }}
+                </div>
+                <form [formGroup]="paymentForm" (ngSubmit)="onSubmit('payment')">
+                    <div class="row">
+                        <div class="col-md-12" formArrayName="payment_methods">
+                            <div *ngFor="let payment_method of formPaymentMethods.controls; let i=index">
+                                <div [formGroupName]="i" class="col-md-12 box-border">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h5>
+                                                <b>Payment Method {{ i + 1 }}</b>
+                                                <span class="glyphicon glyphicon-remove pull-right"
+                                                      *ngIf="formPaymentMethods.controls.length > 1"
+                                                      (click)="removePaymentMethod(i)"></span>
+                                            </h5>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label-label">Method</label>
+                                                <select class="form-control" formControlName="method">
+                                                    <option value="bank">Bank</option>
+                                                    <option value="wallet">Mobile Wallet</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group"
+                                                 *ngIf="formPaymentMethods.controls[i].value.method === 'bank'">
+                                                <label class="control-label-label">Bank Name</label>
+                                                <select class="form-control" formControlName="name">
+                                                    <option [value]="bank.name" *ngFor="let bank of banks">
+                                                        {{bank.name}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group"
+                                                 *ngIf="formPaymentMethods.controls[i].value.method === 'bank'">
+                                                <label class="control-label-label">Branch Name</label>
+                                                <input type="text" formControlName="branch_name" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group"
+                                                 *ngIf="formPaymentMethods.controls[i].value.method === 'bank'">
+                                                <label class="control-label-label">Account Name</label>
+                                                <input type="text" formControlName="account_name" class="form-control">
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group"
+                                                 *ngIf="formPaymentMethods.controls[i].value.method === 'bank'">
+                                                <label class="control-label-label">Account Number</label>
+                                                <input type="text" class="form-control"
+                                                       formControlName="account_number">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group"
+                                                 *ngIf="formPaymentMethods.controls[i].value.method === 'wallet'">
+                                                <label class="control-label-label">Wallet Name</label>
+                                                <select class="form-control" formControlName="name">
+                                                    <option value="Rocket">Rocket</option>
+                                                    <option value="Bkash">Bkash</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group"
+                                                 *ngIf="formPaymentMethods.controls[i].value.method === 'wallet'">
+                                                <label class="control-label-label">Mobile Wallet Type</label>
+                                                <select class="form-control" formControlName="branch_name">
+                                                    <option value="personal">Personal</option>
+                                                    <option value="agent">Agent</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group"
+                                                 *ngIf="formPaymentMethods.controls[i].value.method === 'wallet'">
+                                                <label class="control-label-label">Account Number</label>
+                                                <input type="text" class="form-control" formControlName="account_number">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <button type="button" (click)="addPaymentMethod()" class="btn btn-success btn-form"
+                                    style="cursor: default">
+                                Add More Payment Method +
+                            </button>
+                            <button type="submit" class="btn btn-success btn-form">
+                                <span>Update</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="tab-pane" id="contact">
+                <div class="alert alert-danger-light" role="alert" *ngIf="contactError">
+                    <button type="button" class="close" (click)="closeErrorAlert()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>Error!</strong> {{ contactError }}
+                </div>
+                <form [formGroup]="contactForm" (ngSubmit)="onSubmit('contact')">
+                    <div [formGroupName]="'contact_info'">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group ">
+                                    <label class="control-label-label">Primary Contact Person</label>
+                                    <input type="text" formControlName="primary_contact" class="form-control"
+                                           name="primary_contact">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label-label">Primary Email</label>
+                                    <input type="email" formControlName="primary_email" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label-label">Primary Phone Number</label>
+                                    <input type="text" formControlName="primary_phone"
+                                           class="form-control" id="primary_phone"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label-label">Alternative Contact Person</label>
+                                    <input type="text" formControlName="alternate_contact" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label-label">Alternative Email</label>
+                                    <input type="text" formControlName="alternate_email" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label-label">Alternative Phone Number</label>
+                                    <input type="text" formControlName="alternate_phone" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <button type="submit" class="btn btn-success btn-form">
+                                <span>Update</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
