@@ -38,7 +38,7 @@
     "firebase": "^4.12.1",
     "joinable": "^1.5.0",
     "jquery": "^3.2.1",
-    "jquery-ui": "^1.12.1",
+    "jquery-ui": "^1.13.2",
     "jwt-decode": "^2.2.0",
     "moment": "^2.19.4",
     "ng2-datepicker-bootstrap": "^1.0.0",
